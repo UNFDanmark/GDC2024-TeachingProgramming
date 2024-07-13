@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerShooter : MonoBehaviour
 {
     private Transform transform;
+    public GameObject bulletPrefab;
+    public float cooldownTime = 0.3f;
+    public float bulletSpeed = 100;
+    private float leftoverCooldown;
     
     // Start is called before the first frame update
     void Start()
@@ -15,6 +20,15 @@ public class PlayerShooter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(0, 5, 0);
+        leftoverCooldown = leftoverCooldown - Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Space) && leftoverCooldown <= 0)
+        {
+            GameObject bullet = Instantiate(bulletPrefab,transform.position,quaternion.identity);
+            Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+            bulletRb.velocity = transform.forward * bulletSpeed;
+            leftoverCooldown = cooldownTime;
+        }
+        
+        transform.Rotate(0, Input.GetAxisRaw("TurnAround"), 0);
     }
 }
