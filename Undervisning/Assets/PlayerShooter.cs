@@ -10,6 +10,8 @@ public class PlayerShooter : MonoBehaviour
     public float cooldownTime = 0.3f;
     public float bulletSpeed = 100;
     private float leftoverCooldown;
+
+    public Animator animator;
     
     // Start is called before the first frame update
     void Start()
@@ -26,6 +28,9 @@ public class PlayerShooter : MonoBehaviour
             GameObject bullet = Instantiate(bulletPrefab,transform.position,quaternion.identity);
             Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
             bulletRb.velocity = transform.forward * bulletSpeed;
+            
+            animator.SetTrigger("Shoot");
+            
             leftoverCooldown = cooldownTime;
         }
         
