@@ -12,11 +12,13 @@ public class PlayerShooter : MonoBehaviour
     private float leftoverCooldown;
 
     public Animator animator;
+    AudioSource audioSource;
     
     // Start is called before the first frame update
     void Start()
     {
         transform = GetComponent<Transform>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -30,6 +32,7 @@ public class PlayerShooter : MonoBehaviour
             bulletRb.velocity = transform.forward * bulletSpeed;
             
             animator.SetTrigger("Shoot");
+            audioSource.Play();
             
             leftoverCooldown = cooldownTime;
         }
